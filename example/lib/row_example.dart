@@ -14,9 +14,54 @@ class _RowExampleState extends State<RowExample> {
   void initState() {
     super.initState();
     _columns = <Widget>[
-      Image.asset('assets/river1.jpg', key: ValueKey('river1.jpg')),
-      Image.asset('assets/river2.jpg', key: ValueKey('river2.jpg')),
-      Image.asset('assets/river3.jpg', key: ValueKey('river3.jpg')),
+      Container(
+        key: ValueKey('assets/river1.jpg'),
+        padding: EdgeInsets.all(8),
+        color: Colors.blue[100],
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('assets/river1.jpg'),
+            SizedBox(width: 8),
+            ReorderableDragStartListener(
+              index: 1,
+              child: Icon(Icons.drag_handle),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        key: ValueKey('assets/river2.jpg'),
+        padding: EdgeInsets.all(8),
+        color: Colors.blue[100],
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('assets/river2.jpg'),
+            SizedBox(width: 8),
+            ReorderableDragStartListener(
+              index: 2,
+              child: Icon(Icons.drag_handle),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        key: ValueKey('assets/river3.jpg'),
+        padding: EdgeInsets.all(8),
+        color: Colors.blue[100],
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('assets/river3.jpg'),
+            SizedBox(width: 8),
+            ReorderableDragStartListener(
+              index: 3,
+              child: Icon(Icons.drag_handle),
+            ),
+          ],
+        ),
+      ),
     ];
   }
 
@@ -29,10 +74,12 @@ class _RowExampleState extends State<RowExample> {
       });
     }
 
-    return ReorderableRow(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ReorderableWrap(
+      // crossAxisAlignment: CrossAxisAlignment.start,
+      padding: EdgeInsets.all(8),
       children: _columns,
       onReorder: _onReorder,
+
       onNoReorder: (int index) {
         //this callback is optional
         debugPrint('${DateTime.now().toString().substring(5, 22)} reorder cancelled. index:$index');

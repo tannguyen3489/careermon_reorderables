@@ -42,13 +42,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   final List<Widget> _examples = [
-    TableExample(),
+    // TableExample(),
     WrapExample(),
-    NestedWrapExample(),
-    ColumnExample1(),
-    ColumnExample2(),
-    RowExample(),
-    SliverExample(),
+    // NestedWrapExample(),
+    // ColumnExample1(),
+    // ColumnExample2(),
+    // RowExample(),
+    // SliverExample(),
   ];
   final _bottomNavigationColor = Colors.blue;
 

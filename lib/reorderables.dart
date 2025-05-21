@@ -1,4 +1,4 @@
-library reorderables;
+library careermon_reorderables;
 
 export 'src/widgets/reorderable_flex.dart';
 export 'src/widgets/reorderable_sliver.dart';
