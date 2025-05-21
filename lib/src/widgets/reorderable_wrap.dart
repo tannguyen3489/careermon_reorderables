@@ -1159,12 +1159,14 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
 
     if (widget.isCustomDragUI) {
 
-      return Draggable<int>(
+      return LongPressDraggable<int>(
         maxSimultaneousDrags: 1,
         data: index,
         //toWrap.key,
         ignoringFeedbackSemantics: false,
         feedback: feedbackBuilder,
+        // Wrap toWrapWithSemantics with a widget that supports HitTestBehavior
+        // to make sure the whole toWrapWithSemantics responds to pointer events, i.e. dragging
         child: Stack(
           children: [
             IgnorePointer(
@@ -1184,19 +1186,63 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
             )
           ],
         ),
+        //toWrapWithSemantics,//_dragging == toWrap.key ? const SizedBox() : toWrapWithSemantics,
         childWhenDragging: IgnorePointer(
-          ignoring: true,
-          child: Opacity(
-            opacity: 0.2,
-            child: _makeAppearingWidget(toWrap),
-          ),
-        ),
+            ignoring: true,
+            child: Opacity(
+                opacity: 0.2,
+                //child: toWrap,//Container(width: 0, height: 0, child: toWrap)
+                child: _makeAppearingWidget(toWrap))),
         onDragStarted: onDragStarted,
+        // When the drag ends inside a DragTarget widget, the drag
+        // succeeds, and we reorder the widget into position appropriately.
         onDragCompleted: onDragEnded,
         dragAnchorStrategy: childDragAnchorStrategy,
+        // When the drag does not end inside a DragTarget widget, the
+        // drag fails, but we still reorder the widget to the last position it
+        // had been dragged to.
         onDraggableCanceled: (Velocity velocity, Offset offset) =>
             onDragEnded(),
       );
+
+      // return Draggable<int>(
+      //   maxSimultaneousDrags: 1,
+      //   data: index,
+      //   //toWrap.key,
+      //   ignoringFeedbackSemantics: false,
+      //   feedback: feedbackBuilder,
+      //   child: Stack(
+      //     children: [
+      //       IgnorePointer(
+      //         child: MetaData(
+      //             child: toWrapWithSemantics,
+      //             behavior: HitTestBehavior.translucent),
+      //       ),
+      //       Positioned(
+      //         right: 0,
+      //         top: 0,
+      //         bottom: 0,
+      //         child: Container(
+      //           color: Colors.transparent,
+      //           width: widget.widthOfDragUI,
+      //           height: double.infinity,
+      //         ),
+      //       )
+      //     ],
+      //   ),
+      //   childWhenDragging: IgnorePointer(
+      //     ignoring: true,
+      //     child: Opacity(
+      //       opacity: 0.2,
+      //       child: _makeAppearingWidget(toWrap),
+      //     ),
+      //   ),
+      //   onDragStarted: onDragStarted,
+      //   onDragCompleted: onDragEnded,
+      //   dragAnchorStrategy: childDragAnchorStrategy,
+      //   onDraggableCanceled: (Velocity velocity, Offset offset) =>
+      //       onDragEnded(),
+      // );
 
       return Stack(
         children: [
