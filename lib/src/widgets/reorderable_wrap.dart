@@ -1169,10 +1169,12 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
         // to make sure the whole toWrapWithSemantics responds to pointer events, i.e. dragging
         child: Stack(
           children: [
-            IgnorePointer(
-              child: MetaData(
-                  child: toWrapWithSemantics,
-                  behavior: HitTestBehavior.translucent),
+            GestureDetector(
+              onPanStart: (_) {}, // prevent drag from propagating
+              onPanUpdate: (_) {},
+              onPanEnd: (_) {},
+              behavior: HitTestBehavior.translucent,
+              child: toWrapWithSemantics,
             ),
             Positioned(
               right: 0,
